@@ -9,6 +9,7 @@ import (
 func main() {
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/weather/", func(w http.ResponseWriter, r *http.Request) {
+
 		city := strings.SplitN(r.URL.Path, "/", 3)[2]
 
 		data, err := query(city)
@@ -35,7 +36,7 @@ type weatherData struct {
 }
 
 func query(city string) (weatherData, error) {
-	resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?q=" + city)
+	resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather?APPID=b7d4f4773149d3d97e46b5fe3044adb5&q=" + city)
 	if err != nil {
 		return weatherData{}, err
 	}
@@ -48,4 +49,5 @@ func query(city string) (weatherData, error) {
 		return weatherData{}, err
 	}
 	return d, nil
+
 }
